@@ -1,12 +1,11 @@
-import os
+import os 
 
-input_dir = 'data'
-output_dir = 'output'
+input_files = [file for file in os.listdir() if file.endswith('.shp')]
+print(input_files) 
 
-command = 'ogr2ogr -f "ESRI Shapefile" {output} {input}'
-for file in os.listdir(input_dir):
-  if file.endswith('.gpkg'):
-    input = os.path.join(input_dir, file)
-    filename = os.path.splitext(os.path.basename(file))[0]
-    output =  os.path.join(output_dir, filename + '.shp')
+command = 'ogr2ogr -f "GPKG" {output} {input}' 
+
+for input in input_files:
+    output = os.path.join('output', input.split('.')[0] + '.gpkg')
     os.system(command.format(input=input, output=output))
+    print('created {}'.format(output)) 
